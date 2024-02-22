@@ -211,8 +211,6 @@ void MainView::setScale(float scale) {
   modelView.scale(scale);
 
   update();
-  
-  
   // Q_UNIMPLEMENTED();
 }
 
