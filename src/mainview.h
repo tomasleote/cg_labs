@@ -47,6 +47,8 @@ class MainView : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core {
   QMatrix4x4 modelView;
   QMatrix4x4 projection;
   float aspectRatio;
+  float ogscale = 1.0f;
+  float rotate_X = 0.0f, rotate_Y = 0.0f, rotate_Z = 0.0f;
 
  private slots:
   void onMessageLogged(QOpenGLDebugMessage Message);

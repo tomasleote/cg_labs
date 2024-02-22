@@ -30,10 +30,14 @@ void MainView::keyPressEvent(QKeyEvent *ev) {
 void MainView::keyReleaseEvent(QKeyEvent *ev) {
   switch (ev->key()) {
     case 'A':
-      qDebug() << "A released";
+      // qDebug() << "A released";
+      break;
+    case 'R':
+      setRotation(0, 0, 0);
+      setScale(1.0f);
       break;
     default:
-      qDebug() << ev->key() << "released";
+      // qDebug() << ev->key() << "released";
       break;
   }
 
@@ -47,8 +51,13 @@ void MainView::keyReleaseEvent(QKeyEvent *ev) {
  * @param ev Mouse events.
  */
 void MainView::mouseDoubleClickEvent(QMouseEvent *ev) {
-  qDebug() << "Mouse double clicked:" << ev->button();
-
+  // qDebug() << "Mouse double clicked:" << ev->button();
+  if (ev->button() == Qt::LeftButton) {
+    setScale(1.0f);
+  } else if (ev->button() == Qt::RightButton) {
+    setRotation(0, 0, 0);
+  }
+  
   update();
 }
 
@@ -58,8 +67,8 @@ void MainView::mouseDoubleClickEvent(QMouseEvent *ev) {
  * @param ev Mouse event.
  */
 void MainView::mouseMoveEvent(QMouseEvent *ev) {
-  qDebug() << "x" << ev->position().x() << "y" << ev->position().y();
-
+  // qDebug() << "x" << ev->position().x() << "y" << ev->position().y();
+  setRotation(ev->position().x(), ev->position().y(), 0);
   update();
 }
 
@@ -91,8 +100,17 @@ void MainView::mouseReleaseEvent(QMouseEvent *ev) {
  * @param ev Mouse event.
  */
 void MainView::wheelEvent(QWheelEvent *ev) {
-  // Implement something
-  qDebug() << "Mouse wheel:" << ev->angleDelta();
+  // qDebug() << "Mouse wheel:" << ev->angleDelta();
 
+  int delta = ev->angleDelta().y() > 0 ? 1 : -1;
+
+  float minScale = 0.01f;
+  float maxScale = 2.0f;
+
+  float stepSize = 0.08f;
+
+  float newScale = qBound(minScale, ogscale + delta * stepSize, maxScale);
+
+  setScale(newScale);
   update();
 }

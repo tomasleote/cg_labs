@@ -175,9 +175,20 @@ void MainView::resizeGL(int newWidth, int newHeight) {
  * @param rotateZ Number of degrees to rotate around the z axis.
  */
 void MainView::setRotation(int rotateX, int rotateY, int rotateZ) {
-  qDebug() << "Rotation changed to (" << rotateX << "," << rotateY << ","
-           << rotateZ << ")";
-  Q_UNIMPLEMENTED();
+  // qDebug() << "Rotation changed to (" << rotateX << "," << rotateY << ","
+  //          << rotateZ << ")";
+  // Q_UNIMPLEMENTED();
+  rotate_X = rotateX;
+  rotate_Y = rotateY;
+  rotate_Z = rotateZ;
+  modelView.setToIdentity();
+  modelView.translate(QVector3D(-2.0f, 0.0f, -6.0f));
+  modelView.rotate(rotate_X, QVector3D(1.0f, 0.0f, 0.0f));
+  modelView.rotate(rotate_Y, QVector3D(0.0f, 1.0f, 0.0f));
+  modelView.rotate(rotate_Z, QVector3D(0.0f, 0.0f, 1.0f));
+  modelView.scale(ogscale);
+  update();
+
 }
 
 /**
@@ -186,8 +197,23 @@ void MainView::setRotation(int rotateX, int rotateY, int rotateZ) {
  * mesh to its original size.
  */
 void MainView::setScale(float scale) {
-  qDebug() << "Scale changed to " << scale;
-  Q_UNIMPLEMENTED();
+  // qDebug() << "Scale changed to " << scale;
+
+  // projection.setToIdentity();
+  // projection.perspective(60.0f, aspectRatio, 0.2f, 20.0f);
+  // projection.scale(scale);
+  ogscale = scale;
+  modelView.setToIdentity();
+  modelView.translate(QVector3D(-2.0f, 0.0f, -6.0f));
+  modelView.rotate(rotate_X, QVector3D(1.0f, 0.0f, 0.0f));
+  modelView.rotate(rotate_Y, QVector3D(0.0f, 1.0f, 0.0f));
+  modelView.rotate(rotate_Z, QVector3D(0.0f, 0.0f, 1.0f));
+  modelView.scale(scale);
+
+  update();
+  
+  
+  // Q_UNIMPLEMENTED();
 }
 
 /**
